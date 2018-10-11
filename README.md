@@ -10,6 +10,6 @@ You can view the presentation this way:
 https://mpettis.github.io/r-janitor-talk/r-janitor-talk.html
 
 You can view the supporting notebook here:
-https://mpettis.github.io/r-janitor-talk/clean-names.html
+https://mpettis.github.io/r-janitor-talk/rmd/clean-names.html
 
 They may not always be in sync with this repo, so downloading repo is best bet...
