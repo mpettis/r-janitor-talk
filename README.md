@@ -6,10 +6,10 @@ to systematically deal with column header standardization when reading in from o
 
 It also discusses a standardized workflow for reading data from CSV files.
 
-You can view the presentation this way (currently not working, may be too big, but may work in future.
-May be best to just download/clone and open.)
-https://htmlpreview.github.io/?https://github.com/mpettis/r-janitor-talk/blob/master/r-janitor-talk.html
-
+You can view the presentation this way:
+https://mpettis.github.io/r-janitor-talk/r-janitor-talk.html
 
 You can view the supporting notebook here:
-https://htmlpreview.github.io/?https://github.com/mpettis/r-janitor-talk/blob/master/rmd/clean-names.html
+https://mpettis.github.io/r-janitor-talk/clean-names.html
+
+They may not always be in sync with this repo, so downloading repo is best bet...
