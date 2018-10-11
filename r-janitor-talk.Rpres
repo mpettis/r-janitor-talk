@@ -15,7 +15,7 @@ Who I Am
 ========================================================
 
 - Principal Data Scientist, Honeywell
-- R user, since about 2010, according to the internet
+- R user, since about 2010, according to my internet questions
 
 
 Check these features
@@ -58,5 +58,33 @@ incremental: true
 To the notebook!
 
 
+Make a CSV file-loading workflow
+========================================================
+incremental: true
+
+- Don't copy and paste around the logic for loading a CSV file.
+    + Define it once and wrap in a function.
+    + Keep the loading functions in a library.
+    + Source that library to scripts where you want to use data.
+    + Give the option to return just data, or data and new -> old column name mappings.
 
 
+To sum up...
+========================================================
+incremental: true
+ 
+- Clean your column names programatically with `janitor`.
+- Always record your old and new column names.
+- Make your CSV load definitions once and wrap them in a function.
+- Keep your load definition functions in a source-able library file.
+
+
+Thank You
+========================================================
+
+- Matt Pettis
+  + email: matthew.pettis@gmail.com
+  + github: mpettis
+  + twitter: @mtpettis
+
+This repo: https://github.com/mpettis/r-janitor-talk
