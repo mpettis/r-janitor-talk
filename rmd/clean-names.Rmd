@@ -1,0 +1,189 @@
+<style type="text/css">
+.main-container {
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+---
+title: "janitor package clean names example"
+author: "Matt Pettis (matthew.pettis@gmail.com)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    code_folding: hide
+    number_sections: yes
+    theme: paper
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+      smooth_scroll: no
+---
+
+```{r setup, include=FALSE}
+# Style chunk above from: https://stackoverflow.com/questions/34906002/increase-width-of-entire-html-rmarkdown-output?rq=1
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Setup
+
+Load the data and merge as needed.
+
+```{r echo=FALSE}
+# options(width = 120)
+options(width = 144)
+
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(purrrlyr))
+suppressPackageStartupMessages(library(purrr))
+suppressPackageStartupMessages(library(rprojroot))
+suppressPackageStartupMessages(library(janitor))
+
+# Setup ------------------------------------------------------------------------
+# Get the project root directory
+dir_proj <- find_root(has_file("PROJECT_ROOT"))
+```
+
+
+# Summary
+
+Just a quick run-through of the `janitor` package.  Found here: https://github.com/sfirke/janitor
+
+
+
+
+
+# Bulk name changes, first example
+
+
+
+## Data load
+```{r}
+df_main <- read_csv(file.path(dir_proj, "dat", "ex_10.csv"), col_types = cols())
+```
+
+
+
+## Look at the data and names
+```{r}
+df_main
+```
+
+
+
+## Clean the names, save original names
+
+Save off the original names
+```{r}
+v_main_colnames_orig <- names(df_main)
+```
+
+
+
+Change the names to clean names
+```{r}
+df_main <- df_main %>%
+  clean_names()
+```
+
+
+Make a mapping from new names back to their original names
+name -> value :: new-name -> original name
+```{r}
+kv_original_names <- set_names(v_main_colnames_orig
+                               , names(df_main))
+  
+```
+
+Look at name mapping
+```{r}
+kv_original_names %>%
+  enframe()
+```
+
+
+Now we can use column names as identifiers in our language easily
+```{r}
+df_main %>%
+  select(el_sylla_qaaid)
+```
+
+
+
+
+
+
+
+# Bulk name changes, second example
+
+Here are some funky columnnames to use
+```{r}
+v_grungy_colnames <- c(
+  "with a division / sign and spaces"
+  , "% sign in there"
+  , "this (has) parethesis"
+  , "a newline\nembedded in it"
+  , "duplicated colname"
+  , "duplicated colname"
+)
+v_grungy_colnames %>% walk(~ cat(.x, "\n\n"))
+```
+
+
+
+Make a dataframe with the names.
+```{r}
+df_ex_2 <- map(seq_along(v_grungy_colnames), ~ rnorm(5)) %>%
+  as.data.frame() %>%
+  setNames(v_grungy_colnames)
+df_ex_2
+```
+
+
+Clean up the colnames
+```{r}
+df_ex_2 <- df_ex_2 %>%
+  clean_names()
+df_ex_2
+```
+
+Don't forget to make a mapping of the names
+```{r}
+kv_original_names_ex_2 <-
+  set_names(v_grungy_colnames, names(df_ex_2))
+enframe(kv_original_names_ex_2)
+```
+
+
+
+
+
+# Using lib of load functions
+
+If I use the convention that library files of functions start with `lib-` in the `src` directory, then I can bulk-source their contents with the following:
+```{r}
+# Source library functions
+list.files(file.path(dir_proj, "src"), pattern = "lib-.*\\.R$", full.names = TRUE) %>%
+  walk( ~ source(.x))
+```
+
+
+
+Then I can load files as I want them, and have figured out the coltypes:
+```{r}
+load_ex_50_csv()
+```
+
+
+If I want the name mapping returned when I load it, I pass the flag:
+```{r}
+lst_temp <- load_ex_50_csv(.full_info = TRUE)
+
+lst_temp %>% names()
+
+lst_temp$name_map
+lst_temp$data
+```
+
